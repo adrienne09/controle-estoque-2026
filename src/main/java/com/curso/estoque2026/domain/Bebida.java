@@ -1,48 +1,81 @@
 package com.curso.estoque2026.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Entity
+@Table(
+    name = "bebida",
+    uniqueConstraints = @UniqueConstraint(
+        name = "uk_bebida_codigo_barras",
+        columnNames = "codigo_barras"))
 public class Bebida {
 
-    private final String codigoBarras;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "codigo_barras", nullable = false, length = 50)
+    private String codigoBarras;
+
+    @Column(nullable = false, length = 150)
     private String descricao;
+
+    @Column(name = "saldo_estoque", nullable = false, precision = 18, scale = 3)
     private BigDecimal saldoEstoque;
+
+    @Column(name = "valor_unitario", nullable = false, precision = 18, scale = 2)
     private BigDecimal valorUnitario;
-    private final LocalDate dataCadastro;
+
+    @Column(name = "data_cadastro", nullable = false)
+    private LocalDate dataCadastro;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private Status status;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+        name = "categoria_bebida_id",
+        nullable = false,
+        foreignKey = @ForeignKey(name = "fk_bebida_categoria_bebida"))
     private CategoriaBebida categoria;
 
+    protected Bebida() {
+    }
+
     public Bebida(
-            String codigoBarras,
-            String descricao,
-            BigDecimal saldoEstoque,
-            BigDecimal valorUnitario,
-            LocalDate dataCadastro) {
-        this.codigoBarras = validarTextoObrigatorio(
-                codigoBarras,
-                "Código de barras é obrigatório");
-        this.descricao = validarTextoObrigatorio(
-                descricao,
-                "Descrição é obrigatória");
-        this.saldoEstoque = validarNaoNegativo(
-                saldoEstoque,
-                "Saldo de estoque não pode ser negativo");
-        this.valorUnitario = validarNaoNegativo(
-                valorUnitario,
-                "Valor unitário não pode ser negativo");
-        this.dataCadastro = Objects.requireNonNull(
-                dataCadastro,
-                "Data de cadastro é obrigatória");
+        String codigoBarras,
+        String descricao,
+        BigDecimal saldoEstoque,
+        BigDecimal valorUnitario,
+        LocalDate dataCadastro) {
+        this.codigoBarras = validarTextoObrigatorio(codigoBarras, "Codigo de barras e obrigatorio");
+        this.descricao = validarTextoObrigatorio(descricao, "Descricao e obrigatoria");
+        this.saldoEstoque = validarNaoNegativo(saldoEstoque, "Saldo de estoque nao pode ser negativo");
+        this.valorUnitario = validarNaoNegativo(valorUnitario, "Valor unitario nao pode ser negativo");
+        this.dataCadastro = Objects.requireNonNull(dataCadastro, "Data de cadastro e obrigatoria");
         this.status = Status.ATIVO;
     }
 
     public BigDecimal calcularValorEstoque() {
-        return saldoEstoque
-                .multiply(valorUnitario)
-                .setScale(2, RoundingMode.HALF_UP);
+        return saldoEstoque.multiply(valorUnitario).setScale(2, RoundingMode.HALF_UP);
     }
 
     public void receberEstoque(BigDecimal quantidade) {
@@ -52,24 +85,18 @@ public class Bebida {
 
     public void retirarEstoque(BigDecimal quantidade) {
         validarPositivo(quantidade, "Quantidade retirada deve ser maior que zero");
-
         if (saldoEstoque.compareTo(quantidade) < 0) {
             throw new IllegalArgumentException("Saldo de estoque insuficiente");
         }
-
         this.saldoEstoque = saldoEstoque.subtract(quantidade);
     }
 
     public void alterarDescricao(String novaDescricao) {
-        this.descricao = validarTextoObrigatorio(
-                novaDescricao,
-                "Descrição é obrigatória");
+        this.descricao = validarTextoObrigatorio(novaDescricao, "Descricao e obrigatoria");
     }
 
     public void alterarValorUnitario(BigDecimal novoValor) {
-        this.valorUnitario = validarNaoNegativo(
-                novoValor,
-                "Valor unitário não pode ser negativo");
+        this.valorUnitario = validarNaoNegativo(novoValor, "Valor unitario nao pode ser negativo");
     }
 
     public void ativar() {
@@ -81,13 +108,15 @@ public class Bebida {
     }
 
     void associarA(CategoriaBebida categoria) {
-        Objects.requireNonNull(categoria, "Categoria de bebida é obrigatória");
-
+        Objects.requireNonNull(categoria, "Categoria de bebida e obrigatoria");
         if (this.categoria != null && this.categoria != categoria) {
-            throw new IllegalStateException("Bebida já pertence a outra categoria");
+            throw new IllegalStateException("Bebida ja pertence a outra categoria");
         }
-
         this.categoria = categoria;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getCodigoBarras() {

@@ -1,0 +1,46 @@
+﻿databaseChangeLog:
+  - changeSet:
+      id: 001-01-create-categoria-bebida
+      author: curso-spring-2026
+      comment: Cria a tabela que classifica as bebidas.
+      changes:
+        - createTable:
+            tableName: categoria_bebida
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_categoria_bebida
+                    nullable: false
+              - column:
+                  name: nome
+                  type: VARCHAR(120)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropTable:
+            tableName: categoria_bebida
+
+  - changeSet:
+      id: 001-02-check-status-categoria-bebida
+      author: curso-spring-2026
+      comment: Restringe o status aos valores do enum Java.
+      changes:
+        - sql:
+            sql: >
+              ALTER TABLE categoria_bebida
+              ADD CONSTRAINT ck_categoria_bebida_status
+              CHECK (status IN ('ATIVO', 'INATIVO'))
+      rollback:
+        - sql:
+            sql: >
+              ALTER TABLE categoria_bebida
+              DROP CONSTRAINT ck_categoria_bebida_status
