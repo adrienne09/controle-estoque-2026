@@ -1,0 +1,83 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-01
+      author: aula06
+      comment: Cria a tabela fornecedor
+      changes:
+        - createTable:
+            tableName: fornecedor
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: fornecedor_pkey
+                    nullable: false
+              - column:
+                  name: razao_social
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cnpj
+                  type: VARCHAR(14)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 003-02
+      author: aula06
+      comment: Garante CNPJ unico por fornecedor
+      changes:
+        - addUniqueConstraint:
+            tableName: fornecedor
+            columnNames: cnpj
+            constraintName: uk_fornecedor_cnpj
+
+  - changeSet:
+      id: 003-03
+      author: aula06
+      comment: Adiciona estoque minimo em bebida, com zero para linhas existentes
+      changes:
+        - addColumn:
+            tableName: bebida
+            columns:
+              - column:
+                  name: estoque_minimo
+                  type: numeric(18, 3)
+                  defaultValueNumeric: "0"
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 003-04
+      author: aula06
+      comment: Adiciona referencia opcional de fornecedor em bebida
+      changes:
+        - addColumn:
+            tableName: bebida
+            columns:
+              - column:
+                  name: fornecedor_id
+                  type: BIGINT
+
+  - changeSet:
+      id: 003-05
+      author: aula06
+      comment: Cria a chave estrangeira entre bebida e fornecedor
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: bebida
+            baseColumnNames: fornecedor_id
+            referencedTableName: fornecedor
+            referencedColumnNames: id
+            constraintName: fk_bebida_fornecedor
+            onDelete: NO ACTION
+            onUpdate: NO ACTION

@@ -3,3 +3,5 @@
       file: db/changelog/changes/001-create-categoria-bebida.yaml
   - include:
       file: db/changelog/changes/002-create-bebida.yaml
+  - include:
+      file: db/changelog/changes/003-fornecedor-e-estoque-minimo.yaml

@@ -43,6 +43,9 @@ public class Bebida {
     @Column(name = "valor_unitario", nullable = false, precision = 18, scale = 2)
     private BigDecimal valorUnitario;
 
+    @Column(name = "estoque_minimo", nullable = false, precision = 18, scale = 3)
+    private BigDecimal estoqueMinimo;
+
     @Column(name = "data_cadastro", nullable = false)
     private LocalDate dataCadastro;
 
@@ -57,6 +60,12 @@ public class Bebida {
         foreignKey = @ForeignKey(name = "fk_bebida_categoria_bebida"))
     private CategoriaBebida categoria;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        name = "fornecedor_id",
+        foreignKey = @ForeignKey(name = "fk_bebida_fornecedor"))
+    private Fornecedor fornecedor;
+
     protected Bebida() {
     }
 
@@ -65,13 +74,24 @@ public class Bebida {
         String descricao,
         BigDecimal saldoEstoque,
         BigDecimal valorUnitario,
+        BigDecimal estoqueMinimo,
         LocalDate dataCadastro) {
         this.codigoBarras = validarTextoObrigatorio(codigoBarras, "Codigo de barras e obrigatorio");
         this.descricao = validarTextoObrigatorio(descricao, "Descricao e obrigatoria");
         this.saldoEstoque = validarNaoNegativo(saldoEstoque, "Saldo de estoque nao pode ser negativo");
         this.valorUnitario = validarNaoNegativo(valorUnitario, "Valor unitario nao pode ser negativo");
+        this.estoqueMinimo = validarNaoNegativo(estoqueMinimo, "Estoque minimo nao pode ser negativo");
         this.dataCadastro = Objects.requireNonNull(dataCadastro, "Data de cadastro e obrigatoria");
         this.status = Status.ATIVO;
+    }
+
+    public Bebida(
+        String codigoBarras,
+        String descricao,
+        BigDecimal saldoEstoque,
+        BigDecimal valorUnitario,
+        LocalDate dataCadastro) {
+        this(codigoBarras, descricao, saldoEstoque, valorUnitario, BigDecimal.ZERO, dataCadastro);
     }
 
     public BigDecimal calcularValorEstoque() {
@@ -97,6 +117,18 @@ public class Bebida {
 
     public void alterarValorUnitario(BigDecimal novoValor) {
         this.valorUnitario = validarNaoNegativo(novoValor, "Valor unitario nao pode ser negativo");
+    }
+
+    public void alterarEstoqueMinimo(BigDecimal novoEstoqueMinimo) {
+        this.estoqueMinimo = validarNaoNegativo(novoEstoqueMinimo, "Estoque minimo nao pode ser negativo");
+    }
+
+    public void associarFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
+    public void removerFornecedor() {
+        this.fornecedor = null;
     }
 
     public void ativar() {
@@ -135,6 +167,10 @@ public class Bebida {
         return valorUnitario;
     }
 
+    public BigDecimal getEstoqueMinimo() {
+        return estoqueMinimo;
+    }
+
     public LocalDate getDataCadastro() {
         return dataCadastro;
     }
@@ -145,6 +181,10 @@ public class Bebida {
 
     public CategoriaBebida getCategoria() {
         return categoria;
+    }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
     }
 
     private static String validarTextoObrigatorio(String texto, String mensagem) {
