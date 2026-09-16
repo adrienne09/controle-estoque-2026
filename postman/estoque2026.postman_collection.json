@@ -1,0 +1,644 @@
+{
+  "info": {
+    "_postman_id": "e8b24501-8b01-447a-b5e1-88f6c40a5a01",
+    "name": "Estoque 2026 - API REST",
+    "description": "Coleção completa da API REST de Estoque de Bebidas 2026 desenvolvida no curso de Spring Boot (Aulas 00 a 07 - Prof. Jefferson Passerini). Contém fluxos completos com caminho feliz e cenários de validação e erro (400 Bad Request, 404 Not Found, 409 Conflict).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "categoriaId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "fornecedorId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "bebidaId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Health",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "01 - Categorias de Bebida",
+      "item": [
+        {
+          "name": "1.1 - Cadastrar Categoria (201 Created)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('categoriaId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Refrigerantes\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias-bebida"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.2 - Listar Categorias (200 OK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias-bebida"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.3 - Buscar Categoria por ID (200 OK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida/{{categoriaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias-bebida", "{{categoriaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.4 - Erro 400 - Nome em branco",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"   \"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias-bebida"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "1.5 - Erro 409 - Categoria duplicada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Refrigerantes\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categorias-bebida"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "02 - Fornecedores",
+      "item": [
+        {
+          "name": "2.1 - Cadastrar Fornecedor (201 Created)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('fornecedorId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"razaoSocial\": \"Ambev Distribuidora Brasil LTDA\",\n  \"cnpj\": \"12345678000190\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/fornecedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "fornecedores"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.2 - Listar Fornecedores (200 OK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/fornecedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "fornecedores"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.3 - Buscar Fornecedor por ID (200 OK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/fornecedores/{{fornecedorId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "fornecedores", "{{fornecedorId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.4 - Erro 400 - CNPJ com formato invalido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"razaoSocial\": \"Fornecedor Invalido\",\n  \"cnpj\": \"12.345\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/fornecedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "fornecedores"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.5 - Erro 409 - CNPJ duplicado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"razaoSocial\": \"Outra Distribuidora\",\n  \"cnpj\": \"12345678000190\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/fornecedores",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "fornecedores"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "03 - Bebidas",
+      "item": [
+        {
+          "name": "3.1 - Cadastrar Bebida Completa (201 Created)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.id) {",
+                  "    pm.collectionVariables.set('bebidaId', jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoBarras\": \"7891000315507\",\n  \"descricao\": \"Guaraná Antarctica 2L\",\n  \"saldoEstoque\": 120.000,\n  \"valorUnitario\": 7.99,\n  \"estoqueMinimo\": 20.000,\n  \"categoriaId\": {{categoriaId}},\n  \"fornecedorId\": {{fornecedorId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.2 - Cadastrar Bebida sem Fornecedor (201 Created)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoBarras\": \"7891000100103\",\n  \"descricao\": \"Água Mineral Natural 500ml\",\n  \"saldoEstoque\": 500.000,\n  \"valorUnitario\": 2.50,\n  \"estoqueMinimo\": 50.000,\n  \"categoriaId\": {{categoriaId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.3 - Listar Bebidas (200 OK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.4 - Buscar Bebida por ID (200 OK)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas/{{bebidaId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas", "{{bebidaId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.5 - Erro 400 - Campos obrigatórios ausentes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.6 - Erro 404 - Categoria inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoBarras\": \"7899999999999\",\n  \"descricao\": \"Bebida Inexistente\",\n  \"saldoEstoque\": 10.000,\n  \"valorUnitario\": 5.00,\n  \"estoqueMinimo\": 2.000,\n  \"categoriaId\": 999999\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.7 - Erro 404 - Bebida inexistente por ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas/999999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas", "999999"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.8 - Erro 409 - Codigo de barras duplicado",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 409', function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoBarras\": \"7891000315507\",\n  \"descricao\": \"Guaraná Antarctica 2L Duplicado\",\n  \"saldoEstoque\": 10.000,\n  \"valorUnitario\": 7.99,\n  \"estoqueMinimo\": 5.000,\n  \"categoriaId\": {{categoriaId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bebidas"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
