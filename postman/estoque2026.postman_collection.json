@@ -464,6 +464,14 @@
                 "exec": [
                   "pm.test('Status code is 200', function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Retorna lista de bebidas com categoria', function () {",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data).to.be.an('array');",
+                  "    if (data.length > 0) {",
+                  "        pm.expect(data[0]).to.have.property('categoriaNome');",
+                  "        pm.expect(data[0].categoriaNome).to.not.be.null;",
+                  "    }",
                   "});"
                 ],
                 "type": "text/javascript"
@@ -490,6 +498,12 @@
                 "exec": [
                   "pm.test('Status code is 200', function () {",
                   "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Bebida possui categoriaNome e dados de estoque', function () {",
+                  "    var data = pm.response.json();",
+                  "    pm.expect(data).to.have.property('categoriaNome');",
+                  "    pm.expect(data.categoriaNome).to.not.be.null;",
+                  "    pm.expect(data).to.have.property('valorEstoque');",
                   "});"
                 ],
                 "type": "text/javascript"
