@@ -9,6 +9,14 @@ import com.curso.estoque2026.api.mapper.CategoriaBebidaMapper;
 import com.curso.estoque2026.application.CategoriaBebidaService;
 import com.curso.estoque2026.domain.CategoriaBebida;
 import com.curso.estoque2026.domain.Status;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import com.curso.estoque2026.api.dto.ErroResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,6 +36,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
+@Tag(name = "Categorias de bebida", description = "Cadastro, pesquisa e manutenção das categorias")
 @RequestMapping("/api/categorias-bebida")
 public class CategoriaBebidaController {
 
@@ -41,6 +50,14 @@ public class CategoriaBebidaController {
         this.mapper = mapper;
     }
 
+    @Operation(summary = "Cadastrar categoria")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Categoria cadastrada"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class))),
+        @ApiResponse(responseCode = "409", description = "Nome já cadastrado",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class)))
+    })
     @PostMapping
     public ResponseEntity<CategoriaBebidaResponse> cadastrar(
         @Valid @RequestBody CategoriaBebidaRequest request,
@@ -57,11 +74,24 @@ public class CategoriaBebidaController {
         return ResponseEntity.created(location).body(response);
     }
 
+    @Operation(summary = "Consultar categoria por ID")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Categoria encontrada"),
+        @ApiResponse(responseCode = "404", description = "Categoria não encontrada",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class)))
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<CategoriaBebidaResponse> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<CategoriaBebidaResponse> buscarPorId(@Parameter(description = "Identificador da categoria", example = "1") @PathVariable Long id) {
         return ResponseEntity.ok(mapper.toResponse(service.buscarPorId(id)));
     }
 
+    @Operation(summary = "Pesquisar categorias",
+        description = "Filtra por trecho do nome e status, com paginação e ordenação (id, nome, status).")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Página de categorias"),
+        @ApiResponse(responseCode = "400", description = "Ordenação ou filtro inválido",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class)))
+    })
     @GetMapping
     public ResponseEntity<PaginaResponse<CategoriaBebidaResponse>> pesquisar(
         @RequestParam(required = false) String nome,
@@ -72,22 +102,48 @@ public class CategoriaBebidaController {
             mapper::toResponse));
     }
 
+    @Operation(summary = "Alterar nome da categoria")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Categoria alterada"),
+        @ApiResponse(responseCode = "400", description = "Dados inválidos",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Categoria não encontrada",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class))),
+        @ApiResponse(responseCode = "409", description = "Nome já cadastrado",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class)))
+    })
     @PutMapping("/{id}")
     public ResponseEntity<CategoriaBebidaResponse> alterar(
-        @PathVariable Long id,
+        @Parameter(description = "Identificador da categoria", example = "1") @PathVariable Long id,
         @Valid @RequestBody CategoriaBebidaAtualizacaoRequest request) {
         return ResponseEntity.ok(mapper.toResponse(service.alterar(id, request.nome())));
     }
 
+    @Operation(summary = "Ativar ou inativar categoria")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Status alterado"),
+        @ApiResponse(responseCode = "400", description = "Status inválido",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class))),
+        @ApiResponse(responseCode = "404", description = "Categoria não encontrada",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class)))
+    })
     @PutMapping("/{id}/status")
     public ResponseEntity<CategoriaBebidaResponse> alterarStatus(
-        @PathVariable Long id,
+        @Parameter(description = "Identificador da categoria", example = "1") @PathVariable Long id,
         @Valid @RequestBody StatusRequest request) {
         return ResponseEntity.ok(mapper.toResponse(service.alterarStatus(id, request.status())));
     }
 
+    @Operation(summary = "Excluir categoria")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Categoria excluída"),
+        @ApiResponse(responseCode = "404", description = "Categoria não encontrada",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class))),
+        @ApiResponse(responseCode = "409", description = "Categoria possui bebidas",
+            content = @Content(schema = @Schema(implementation = ErroResponse.class)))
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+    public ResponseEntity<Void> excluir(@Parameter(description = "Identificador da categoria", example = "1") @PathVariable Long id) {
         service.excluir(id);
         return ResponseEntity.noContent().build();
     }
