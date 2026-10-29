@@ -21,5 +21,5 @@ private Status status; protected Fornecedor() { } public Fornecedor(String razao
     public String getCnpj() { return cnpj; } public Status getStatus() { return status; }
     private static String validarTextoObrigatorio(String texto, String mensagem)
     { if (texto == null || texto.isBlank()) { throw new IllegalArgumentException(mensagem); }
-        return texto.trim(); } private static String validarCnpj(String cnpj) { if (cnpj == null || cnpj.length() != 14 || !cnpj.chars().allMatch(Character::isDigit))
-        { throw new IllegalArgumentException("CNPJ deve conter 14 dígitos numéricos"); } return cnpj; } }
+        return texto.trim(); } private static String validarCnpj(String cnpj) { if (!DocumentoFiscal.cnpjValido(cnpj))
+        { throw new IllegalArgumentException("CNPJ inválido"); } return cnpj; } }

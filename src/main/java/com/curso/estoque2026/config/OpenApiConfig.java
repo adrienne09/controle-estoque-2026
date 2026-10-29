@@ -14,8 +14,8 @@ public class OpenApiConfig {
         return new OpenAPI()
             .info(new Info()
                 .title("Estoque 2026 API")
-                .description("API didática de controle de estoque de bebidas: categorias, "
-                    + "fornecedores, bebidas e movimentações de estoque.")
+                .description("API didática de controle de estoque de bebidas: categorias, fornecedores, "
+                    + "bebidas, pessoas, clientes, colaboradores, vendas e movimentações de estoque.")
                 .version("1.0.0")
                 .contact(new Contact().name("Curso de Spring Boot 2026")));
     }

@@ -25,6 +25,41 @@
       "key": "bebidaId",
       "value": "1",
       "type": "string"
+    },
+    {
+      "key": "pessoaClienteId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "pessoaVendedorId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "clienteId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "vendedorId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "vendaId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "itemId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "categoriaExtraId",
+      "value": "1",
+      "type": "string"
     }
   ],
   "item": [
@@ -38,8 +73,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/health",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "health"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
             }
           },
           "response": []
@@ -82,8 +122,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/categorias-bebida",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "categorias-bebida"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida"
+              ]
             }
           },
           "response": []
@@ -94,12 +139,12 @@
             {
               "listen": "test",
               "script": {
+                "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status code is 200', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});"
-                ],
-                "type": "text/javascript"
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Resposta paginada', () => pm.expect(jsonData.conteudo).to.be.an('array'));"
+                ]
               }
             }
           ],
@@ -108,8 +153,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/categorias-bebida",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "categorias-bebida"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida"
+              ]
             }
           },
           "response": []
@@ -134,8 +184,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/categorias-bebida/{{categoriaId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "categorias-bebida", "{{categoriaId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida",
+                "{{categoriaId}}"
+              ]
             }
           },
           "response": []
@@ -169,8 +225,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/categorias-bebida",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "categorias-bebida"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida"
+              ]
             }
           },
           "response": []
@@ -204,8 +265,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/categorias-bebida",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "categorias-bebida"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida"
+              ]
             }
           },
           "response": []
@@ -244,12 +310,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"razaoSocial\": \"Ambev Distribuidora Brasil LTDA\",\n  \"cnpj\": \"12345678000190\"\n}"
+              "raw": "{\n  \"razaoSocial\": \"Ambev Distribuidora Brasil LTDA\",\n  \"cnpj\": \"11222333000181\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/fornecedores",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "fornecedores"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "fornecedores"
+              ]
             }
           },
           "response": []
@@ -274,8 +345,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/fornecedores",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "fornecedores"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "fornecedores"
+              ]
             }
           },
           "response": []
@@ -300,8 +376,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/fornecedores/{{fornecedorId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "fornecedores", "{{fornecedorId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "fornecedores",
+                "{{fornecedorId}}"
+              ]
             }
           },
           "response": []
@@ -335,8 +417,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/fornecedores",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "fornecedores"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "fornecedores"
+              ]
             }
           },
           "response": []
@@ -366,12 +453,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"razaoSocial\": \"Outra Distribuidora\",\n  \"cnpj\": \"12345678000190\"\n}"
+              "raw": "{\n  \"razaoSocial\": \"Outra Distribuidora\",\n  \"cnpj\": \"11222333000181\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/fornecedores",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "fornecedores"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "fornecedores"
+              ]
             }
           },
           "response": []
@@ -414,8 +506,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ]
             }
           },
           "response": []
@@ -449,8 +546,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ]
             }
           },
           "response": []
@@ -461,20 +563,20 @@
             {
               "listen": "test",
               "script": {
+                "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status code is 200', function () {",
-                  "    pm.response.to.have.status(200);",
-                  "});",
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Resposta paginada', () => pm.expect(jsonData.conteudo).to.be.an('array'));",
                   "pm.test('Retorna lista de bebidas com categoria', function () {",
-                  "    var data = pm.response.json();",
+                  "    var data = pm.response.json().conteudo;",
                   "    pm.expect(data).to.be.an('array');",
                   "    if (data.length > 0) {",
                   "        pm.expect(data[0]).to.have.property('categoriaNome');",
                   "        pm.expect(data[0].categoriaNome).to.not.be.null;",
                   "    }",
                   "});"
-                ],
-                "type": "text/javascript"
+                ]
               }
             }
           ],
@@ -483,8 +585,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ]
             }
           },
           "response": []
@@ -515,8 +622,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/bebidas/{{bebidaId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas", "{{bebidaId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas",
+                "{{bebidaId}}"
+              ]
             }
           },
           "response": []
@@ -550,8 +663,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ]
             }
           },
           "response": []
@@ -585,8 +703,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ]
             }
           },
           "response": []
@@ -611,8 +734,14 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/bebidas/999999",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas", "999999"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas",
+                "999999"
+              ]
             }
           },
           "response": []
@@ -646,11 +775,947 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
-              "host": ["{{baseUrl}}"],
-              "path": ["api", "bebidas"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ]
             }
           },
           "response": []
+        }
+      ]
+    },
+    {
+      "name": "04 - Aula 08 - Manutencao, estoque e paginacao",
+      "item": [
+        {
+          "name": "4.1 - Pesquisar categorias paginadas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Resposta paginada', () => pm.expect(jsonData.conteudo).to.be.an('array'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida?nome=refri&page=0&size=5&sort=nome,asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida"
+              ],
+              "query": [
+                {
+                  "key": "nome",
+                  "value": "refri"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "5"
+                },
+                {
+                  "key": "sort",
+                  "value": "nome,asc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.2 - Cadastrar categoria extra",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('categoriaExtraId', jsonData.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Energeticos\"\n}"
+            }
+          }
+        },
+        {
+          "name": "4.3 - Alterar categoria",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida/{{categoriaExtraId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida",
+                "{{categoriaExtraId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Energeticos e Isotonicos\"\n}"
+            }
+          }
+        },
+        {
+          "name": "4.4 - Inativar categoria",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida/{{categoriaExtraId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida",
+                "{{categoriaExtraId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"INATIVO\"\n}"
+            }
+          }
+        },
+        {
+          "name": "4.5 - Excluir categoria sem bebidas (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida/{{categoriaExtraId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida",
+                "{{categoriaExtraId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.6 - Erro 409 - Excluir categoria com bebidas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categorias-bebida/{{categoriaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "categorias-bebida",
+                "{{categoriaId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.7 - Pesquisar bebidas abaixo do minimo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Resposta paginada', () => pm.expect(jsonData.conteudo).to.be.an('array'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas?abaixoEstoqueMinimo=true&page=0&size=10&sort=descricao,asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ],
+              "query": [
+                {
+                  "key": "abaixoEstoqueMinimo",
+                  "value": "true"
+                },
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sort",
+                  "value": "descricao,asc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.8 - Erro 400 - Ordenacao invalida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas?sort=senha,asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas"
+              ],
+              "query": [
+                {
+                  "key": "sort",
+                  "value": "senha,asc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "4.9 - Alterar bebida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas/{{bebidaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas",
+                "{{bebidaId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Refrigerante Cola 2L Retornavel\",\n  \"valorUnitario\": 9.2,\n  \"estoqueMinimo\": 10.0,\n  \"categoriaId\": {{categoriaId}},\n  \"fornecedorId\": {{fornecedorId}}\n}"
+            }
+          }
+        },
+        {
+          "name": "4.10 - Entrada de estoque",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas/{{bebidaId}}/estoque/entradas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas",
+                "{{bebidaId}}",
+                "estoque",
+                "entradas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantidade\": 12.0\n}"
+            }
+          }
+        },
+        {
+          "name": "4.11 - Saida de estoque",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas/{{bebidaId}}/estoque/saidas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas",
+                "{{bebidaId}}",
+                "estoque",
+                "saidas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantidade\": 2.0\n}"
+            }
+          }
+        },
+        {
+          "name": "4.12 - Erro 400 - Saida maior que o saldo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bebidas/{{bebidaId}}/estoque/saidas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bebidas",
+                "{{bebidaId}}",
+                "estoque",
+                "saidas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quantidade\": 99999.0\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 - Aula 10 - Pessoas, clientes e colaboradores",
+      "item": [
+        {
+          "name": "5.1 - Cadastrar pessoa (cliente)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('pessoaClienteId', jsonData.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pessoas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pessoas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Ana Souza\",\n  \"email\": \"ana.souza@example.com\",\n  \"cpf\": \"52998224725\"\n}"
+            }
+          }
+        },
+        {
+          "name": "5.2 - Cadastrar pessoa (vendedor)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('pessoaVendedorId', jsonData.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pessoas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pessoas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Bruno Lima\",\n  \"email\": \"bruno.lima@example.com\",\n  \"cpf\": \"11144477735\"\n}"
+            }
+          }
+        },
+        {
+          "name": "5.3 - Erro 400 - CPF invalido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/pessoas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pessoas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Teste\",\n  \"email\": \"teste@example.com\",\n  \"cpf\": \"11111111111\"\n}"
+            }
+          }
+        },
+        {
+          "name": "5.4 - Pesquisar pessoas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Resposta paginada', () => pm.expect(jsonData.conteudo).to.be.an('array'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pessoas?page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pessoas"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "5.5 - Cadastrar cliente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('clienteId', jsonData.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pessoaId\": {{pessoaClienteId}},\n  \"telefone\": \"(44) 99999-0000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "5.6 - Cadastrar colaborador vendedor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('vendedorId', jsonData.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/colaboradores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "colaboradores"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pessoaId\": {{pessoaVendedorId}},\n  \"matricula\": \"VEN-001\",\n  \"funcao\": \"VENDEDOR\",\n  \"dataAdmissao\": \"2026-10-01\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 - Aula 10 - Vendas",
+      "item": [
+        {
+          "name": "6.1 - Abrir venda",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Venda aberta', () => pm.expect(jsonData.status).to.eql('ABERTA'));",
+                  "pm.collectionVariables.set('vendaId', jsonData.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/vendas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vendas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": {{clienteId}},\n  \"vendedorId\": {{vendedorId}}\n}"
+            }
+          }
+        },
+        {
+          "name": "6.2 - Adicionar item",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.collectionVariables.set('itemId', jsonData.itens[0].id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/vendas/{{vendaId}}/itens",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vendas",
+                "{{vendaId}}",
+                "itens"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bebidaId\": {{bebidaId}},\n  \"quantidade\": 2.0\n}"
+            }
+          }
+        },
+        {
+          "name": "6.3 - Consultar venda",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/vendas/{{vendaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vendas",
+                "{{vendaId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "6.4 - Finalizar venda (baixa o estoque)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Venda finalizada', () => pm.expect(jsonData.status).to.eql('FINALIZADA'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/vendas/{{vendaId}}/finalizacao",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vendas",
+                "{{vendaId}}",
+                "finalizacao"
+              ]
+            }
+          }
+        },
+        {
+          "name": "6.5 - Erro 400 - Item em venda finalizada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/vendas/{{vendaId}}/itens",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vendas",
+                "{{vendaId}}",
+                "itens"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bebidaId\": {{bebidaId}},\n  \"quantidade\": 1.0\n}"
+            }
+          }
+        },
+        {
+          "name": "6.6 - Pesquisar vendas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Resposta paginada', () => pm.expect(jsonData.conteudo).to.be.an('array'));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/vendas?page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "vendas"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
         }
       ]
     }
