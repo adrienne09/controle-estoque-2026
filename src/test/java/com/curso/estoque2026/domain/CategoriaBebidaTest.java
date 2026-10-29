@@ -53,4 +53,18 @@ class CategoriaBebidaTest {
                 new BigDecimal("50.00"),
                 LocalDate.of(2026, 8, 27));
     }
+
+    @Test
+    void deveMoverBebidaParaOutraCategoriaMantendoOsDoisLados() {
+        CategoriaBebida origem = new CategoriaBebida("Sucos");
+        CategoriaBebida destino = new CategoriaBebida("Nectares");
+        Bebida bebida = novaBebida("7891000000099", "Nectar de Uva 1L");
+        origem.adicionarBebida(bebida);
+
+        bebida.alterarCategoria(destino);
+
+        assertEquals(0, origem.getBebidas().size());
+        assertEquals(1, destino.getBebidas().size());
+        assertEquals(destino, bebida.getCategoria());
+    }
 }

@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-01-unique-nome-normalizado-categoria-bebida
+      author: aula08
+      comment: Garante no PostgreSQL a unicidade do nome da categoria sem diferenciar maiusculas.
+      changes:
+        - sql:
+            sql: >
+              CREATE UNIQUE INDEX uk_categoria_bebida_nome_lower
+              ON categoria_bebida (LOWER(BTRIM(nome)))
+      rollback:
+        - sql:
+            sql: >
+              DROP INDEX uk_categoria_bebida_nome_lower

@@ -1,6 +1,7 @@
 package com.curso.estoque2026.api;
 
 import com.curso.estoque2026.api.dto.BebidaResponse;
+import com.curso.estoque2026.api.dto.PaginaResponse;
 import com.curso.estoque2026.api.mapper.BebidaMapper;
 import com.curso.estoque2026.application.BebidaService;
 import com.curso.estoque2026.domain.Bebida;
@@ -11,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -52,16 +56,19 @@ class BebidaControllerTest {
         categoria.adicionarBebida(bebida);
         bebida.associarFornecedor(fornecedor);
 
-        when(service.listar()).thenReturn(List.of(bebida));
+        Pageable pageable = PageRequest.of(0, 20);
+        when(service.pesquisar(null, null, null, null, null, pageable))
+            .thenReturn(new PageImpl<>(List.of(bebida), pageable, 1));
 
-        ResponseEntity<List<BebidaResponse>> response = controller.listar();
+        ResponseEntity<PaginaResponse<BebidaResponse>> response =
+            controller.pesquisar(null, null, null, null, null, pageable);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(1, response.getBody().size());
-        assertEquals("Guaraná Antarctica 2L", response.getBody().get(0).descricao());
-        assertEquals("Refrigerantes", response.getBody().get(0).categoriaNome());
-        assertEquals("Ambev", response.getBody().get(0).fornecedorRazaoSocial());
+        assertEquals(1, response.getBody().totalElementos());
+        assertEquals("Guaraná Antarctica 2L", response.getBody().conteudo().get(0).descricao());
+        assertEquals("Refrigerantes", response.getBody().conteudo().get(0).categoriaNome());
+        assertEquals("Ambev", response.getBody().conteudo().get(0).fornecedorRazaoSocial());
     }
 
     @Test

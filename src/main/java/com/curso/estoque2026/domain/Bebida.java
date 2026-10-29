@@ -127,6 +127,23 @@ public class Bebida {
         this.fornecedor = fornecedor;
     }
 
+    public void alterarCategoria(CategoriaBebida novaCategoria) {
+        Objects.requireNonNull(novaCategoria, "Categoria de bebida e obrigatoria");
+        if (this.categoria == novaCategoria) {
+            return;
+        }
+        novaCategoria.validarInclusao(this);
+        if (this.categoria != null) {
+            this.categoria.removerInternamente(this);
+        }
+        this.categoria = novaCategoria;
+        novaCategoria.adicionarInternamente(this);
+    }
+
+    public void alterarFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+
     public void removerFornecedor() {
         this.fornecedor = null;
     }

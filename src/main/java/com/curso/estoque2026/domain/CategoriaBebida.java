@@ -43,16 +43,32 @@ public class CategoriaBebida {
 
     public void adicionarBebida(Bebida bebida) {
         Objects.requireNonNull(bebida, "Bebida é obrigatória");
+        validarInclusao(bebida);
+        bebida.associarA(this);
+        adicionarInternamente(bebida);
+    }
+
+    public void alterarNome(String novoNome) {
+        this.nome = validarTextoObrigatorio(novoNome, "Nome da categoria é obrigatório");
+    }
+
+    void validarInclusao(Bebida bebida) {
         boolean codigoJaUtilizado = bebidas.stream()
             .anyMatch(item -> item != bebida
                 && item.getCodigoBarras().equals(bebida.getCodigoBarras()));
         if (codigoJaUtilizado) {
             throw new IllegalArgumentException("Código de barras já utilizado na categoria");
         }
-        bebida.associarA(this);
+    }
+
+    void adicionarInternamente(Bebida bebida) {
         if (!bebidas.contains(bebida)) {
             bebidas.add(bebida);
         }
+    }
+
+    void removerInternamente(Bebida bebida) {
+        bebidas.remove(bebida);
     }
 
     public void ativar() {
