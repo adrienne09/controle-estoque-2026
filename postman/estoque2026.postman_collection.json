@@ -82,7 +82,43 @@
               ]
             }
           },
-          "response": []
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Gera dados únicos a cada execução, para o Runner poder rodar de novo sem 409 inesperado.",
+                  "function dv(base, pesos) {",
+                  "    var soma = 0;",
+                  "    for (var i = 0; i < pesos.length; i++) soma += Number(base[i]) * pesos[i];",
+                  "    var resto = soma % 11;",
+                  "    return resto < 2 ? 0 : 11 - resto;",
+                  "}",
+                  "function cpf(seed) {",
+                  "    var b = seed.slice(-9);",
+                  "    b += dv(b, [10, 9, 8, 7, 6, 5, 4, 3, 2]);",
+                  "    return b + dv(b, [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]);",
+                  "}",
+                  "function cnpj(seed) {",
+                  "    var b = seed.slice(-8) + '0001';",
+                  "    b += dv(b, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);",
+                  "    return b + dv(b, [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);",
+                  "}",
+                  "var sufixo = String(Date.now()).slice(-9);",
+                  "pm.collectionVariables.set('sufixo', sufixo);",
+                  "pm.collectionVariables.set('categoriaNome', 'Refrigerantes ' + sufixo);",
+                  "pm.collectionVariables.set('categoriaExtraNome', 'Energeticos ' + sufixo);",
+                  "pm.collectionVariables.set('fornecedorCnpj', cnpj(sufixo));",
+                  "pm.collectionVariables.set('codigoBarras1', '789' + sufixo + '1');",
+                  "pm.collectionVariables.set('codigoBarras2', '789' + sufixo + '2');",
+                  "pm.collectionVariables.set('cpfCliente', cpf(sufixo.slice(0, 8) + '1'));",
+                  "pm.collectionVariables.set('cpfVendedor', cpf(sufixo.slice(0, 8) + '2'));"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -118,7 +154,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"Refrigerantes\"\n}"
+              "raw": "{\n  \"nome\": \"{{categoriaNome}}\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/categorias-bebida",
@@ -261,7 +297,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"Refrigerantes\"\n}"
+              "raw": "{\n  \"nome\": \"{{categoriaNome}}\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/categorias-bebida",
@@ -310,7 +346,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"razaoSocial\": \"Ambev Distribuidora Brasil LTDA\",\n  \"cnpj\": \"11222333000181\"\n}"
+              "raw": "{\n  \"razaoSocial\": \"Ambev Distribuidora Brasil LTDA\",\n  \"cnpj\": \"{{fornecedorCnpj}}\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/fornecedores",
@@ -453,7 +489,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"razaoSocial\": \"Outra Distribuidora\",\n  \"cnpj\": \"11222333000181\"\n}"
+              "raw": "{\n  \"razaoSocial\": \"Outra Distribuidora\",\n  \"cnpj\": \"{{fornecedorCnpj}}\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/fornecedores",
@@ -502,7 +538,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"codigoBarras\": \"7891000315507\",\n  \"descricao\": \"Guaraná Antarctica 2L\",\n  \"saldoEstoque\": 120.000,\n  \"valorUnitario\": 7.99,\n  \"estoqueMinimo\": 20.000,\n  \"categoriaId\": {{categoriaId}},\n  \"fornecedorId\": {{fornecedorId}}\n}"
+              "raw": "{\n  \"codigoBarras\": \"{{codigoBarras1}}\",\n  \"descricao\": \"Guaraná Antarctica 2L\",\n  \"saldoEstoque\": 120.000,\n  \"valorUnitario\": 7.99,\n  \"estoqueMinimo\": 20.000,\n  \"categoriaId\": {{categoriaId}},\n  \"fornecedorId\": {{fornecedorId}}\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
@@ -542,7 +578,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"codigoBarras\": \"7891000100103\",\n  \"descricao\": \"Água Mineral Natural 500ml\",\n  \"saldoEstoque\": 500.000,\n  \"valorUnitario\": 2.50,\n  \"estoqueMinimo\": 50.000,\n  \"categoriaId\": {{categoriaId}}\n}"
+              "raw": "{\n  \"codigoBarras\": \"{{codigoBarras2}}\",\n  \"descricao\": \"Água Mineral Natural 500ml\",\n  \"saldoEstoque\": 500.000,\n  \"valorUnitario\": 2.50,\n  \"estoqueMinimo\": 50.000,\n  \"categoriaId\": {{categoriaId}}\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
@@ -771,7 +807,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"codigoBarras\": \"7891000315507\",\n  \"descricao\": \"Guaraná Antarctica 2L Duplicado\",\n  \"saldoEstoque\": 10.000,\n  \"valorUnitario\": 7.99,\n  \"estoqueMinimo\": 5.000,\n  \"categoriaId\": {{categoriaId}}\n}"
+              "raw": "{\n  \"codigoBarras\": \"{{codigoBarras1}}\",\n  \"descricao\": \"Guaraná Antarctica 2L Duplicado\",\n  \"saldoEstoque\": 10.000,\n  \"valorUnitario\": 7.99,\n  \"estoqueMinimo\": 5.000,\n  \"categoriaId\": {{categoriaId}}\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/bebidas",
@@ -874,7 +910,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"Energeticos\"\n}"
+              "raw": "{\n  \"nome\": \"{{categoriaExtraNome}}\"\n}"
             }
           }
         },
@@ -912,7 +948,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"Energeticos e Isotonicos\"\n}"
+              "raw": "{\n  \"nome\": \"{{categoriaExtraNome}} e Isotonicos\"\n}"
             }
           }
         },
@@ -1293,7 +1329,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"Ana Souza\",\n  \"email\": \"ana.souza@example.com\",\n  \"cpf\": \"52998224725\"\n}"
+              "raw": "{\n  \"nome\": \"Ana Souza\",\n  \"email\": \"ana.souza.{{sufixo}}@example.com\",\n  \"cpf\": \"{{cpfCliente}}\"\n}"
             }
           }
         },
@@ -1332,7 +1368,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nome\": \"Bruno Lima\",\n  \"email\": \"bruno.lima@example.com\",\n  \"cpf\": \"11144477735\"\n}"
+              "raw": "{\n  \"nome\": \"Bruno Lima\",\n  \"email\": \"bruno.lima.{{sufixo}}@example.com\",\n  \"cpf\": \"{{cpfVendedor}}\"\n}"
             }
           }
         },
@@ -1487,7 +1523,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"pessoaId\": {{pessoaVendedorId}},\n  \"matricula\": \"VEN-001\",\n  \"funcao\": \"VENDEDOR\",\n  \"dataAdmissao\": \"2026-10-01\"\n}"
+              "raw": "{\n  \"pessoaId\": {{pessoaVendedorId}},\n  \"matricula\": \"VEN-{{sufixo}}\",\n  \"funcao\": \"VENDEDOR\",\n  \"dataAdmissao\": \"2026-10-01\"\n}"
             }
           }
         }
